@@ -6,5 +6,5 @@ package com.example.willian_note.appestudo.util;
 
 public class Constantes {
     public static final String BD_NOME = "loja-devmedia";
-    public static final int BD_VERSAO = 1;
+    public static final int BD_VERSAO = 2;
 }

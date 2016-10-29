@@ -39,8 +39,8 @@
 
 
         <TextView
-            style="@style/txt_teste"
             android:id="@+id/txtCpfCnpj"
+            style="@style/txt_teste"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CPF:" />
@@ -70,8 +70,7 @@
             android:id="@+id/edtCpfCnpj"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            />
+            android:inputType="number" />
 
         <TextView
             style="@style/txt_teste"
@@ -110,22 +109,34 @@
             android:id="@+id/spnProfissao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></Spinner>
-        <Button
-            android:id="@+id/btnData"
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="setData"
-            android:text="Data Nasc."
-            />
-        <EditText
-            android:id="@+id/edtDataNasc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false"/>
-        <Button
-            android:id="@+id/btnEnviar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Enviar" />
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnData"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="setData"
+                android:text="Data Nasc." />
+
+            <EditText
+                android:id="@+id/edtDataNasc"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false" />
+        </LinearLayout>
+            <Button
+                android:id="@+id/btnEnviar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enviar"
+                android:onClick="EnviarPessoa"
+                />
     </LinearLayout>
 </ScrollView>

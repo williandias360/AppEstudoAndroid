@@ -5,8 +5,10 @@ import android.app.Dialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -14,25 +16,30 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.willian_note.appestudo.entidade.Pessoa;
 import com.example.willian_note.appestudo.entidade.Profissao;
+import com.example.willian_note.appestudo.entidade.Sexo;
+import com.example.willian_note.appestudo.entidade.TipoPessoa;
 import com.example.willian_note.appestudo.fragment.DatePickerFragment;
 import com.example.willian_note.appestudo.util.Mask;
 import com.example.willian_note.appestudo.util.Util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class PessoaActivity extends AppCompatActivity {
 
     private Spinner spnProfissao;
-    private EditText edtCpfCnpj;
-    private RadioGroup rbgCpfCnpj;
+
+    private RadioGroup rbgCpfCnpj,rbgSexo;
     private RadioButton rbtCpf;
-    private TextWatcher cpfMask;
-    private TextWatcher cnpjMask;
+    private TextWatcher cpfMask,cnpjMask;
     private TextView txtCpfCnpj;
-    private EditText edtDataNasc;
     private int CpfCnpjSelecionado;
+    private EditText edtDataNasc, edtNome, edtEndereco, edtCpfCnpj;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +51,10 @@ public class PessoaActivity extends AppCompatActivity {
         rbtCpf = (RadioButton)findViewById(R.id.rbtCpf);
         txtCpfCnpj = (TextView)findViewById(R.id.txtCpfCnpj);
         edtDataNasc = (EditText)findViewById(R.id.edtDataNasc);
+        edtNome = (EditText)findViewById(R.id.edtNome);
+        edtEndereco = (EditText)findViewById(R.id.edtEndereco);
+        rbgSexo = (RadioGroup)findViewById(R.id.rbgSexo);
+
 
         cpfMask = Mask.insert("###.###.###-##", edtCpfCnpj);
         edtCpfCnpj.addTextChangedListener(cpfMask);
@@ -81,8 +92,12 @@ public class PessoaActivity extends AppCompatActivity {
         });
 
         initProfissoes();
+        //TODO:Continuar a implementação do cadastro do cliente
     }
 
+    public void EnviarPessoa(View view){
+        MontarPessoa();
+    }
     private void initProfissoes(){
         ArrayList<String> profissoes = new ArrayList<>();
         for (Profissao p: Profissao.values()) {
@@ -117,4 +132,40 @@ public class PessoaActivity extends AppCompatActivity {
 
         }
     };
+    private void MontarPessoa(){
+        Pessoa pessoa = new Pessoa();
+        pessoa.setNome(edtNome.getText().toString());
+        pessoa.setEndereco(edtEndereco.getText().toString());
+        pessoa.setCpfCnpj(edtCpfCnpj.getText().toString());
+        switch (rbgCpfCnpj.getCheckedRadioButtonId()){
+            case R.id.rbtCpf:
+                pessoa.setTipoPessoa(TipoPessoa.FISICA);
+                break;
+            case R.id.rbtCnpj:
+                pessoa.setTipoPessoa(TipoPessoa.JURIDICA);
+                break;
+        }
+        switch (rbgSexo.getCheckedRadioButtonId()){
+            case R.id.rbtMasculino:
+                pessoa.setSexo(Sexo.MASCULINO);
+                break;
+            case R.id.rbtFeminino:
+                pessoa.setSexo(Sexo.FEMININO);
+                break;
+        }
+
+        Profissao profissao = Profissao.getProfissao(spnProfissao.getSelectedItemPosition());
+        pessoa.setProfissao(profissao);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        try{
+            Date nascimento = dateFormat.parse(edtDataNasc.getText().toString());
+            pessoa.setDtNasc(nascimento);
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+
+        Util.showMsgToast(this,pessoa.toString());
+
+    }
 }

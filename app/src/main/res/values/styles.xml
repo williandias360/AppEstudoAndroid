@@ -1,0 +1,69 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="txt_teste">
+        <item name="android:textSize">@dimen/texto_padrao</item>
+        <item name="android:layout">@dimen/margin_widgets</item>
+
+    </style>
+
+    <style name="Edt_estilo">
+        <item name="android:textSize">@dimen/texto_padrao</item>
+        <item name="android:layout">@dimen/margin_widgets</item>
+    </style>
+
+    <style name="Btn_Confirmacao">
+        <item name="android:background">@color/btn_confirmacao</item>
+        <item name="android:textColor">@color/branco</item>
+    </style>
+
+    <style name="Btn_Cancelar">
+        <item name="android:background">@color/btn_cancelar</item>
+        <item name="android:textColor">@color/branco</item>
+    </style>
+
+    <style name="Txt_Teste">
+        <item name="android:textColor">@color/branco</item>
+        <item name="android:textSize">@dimen/texto_padrao</item>
+        <item name="android:layout_marginBottom">@dimen/margin_widgets</item>
+        <item name="android:layout_marginTop">@dimen/padding_toast</item>
+    </style>
+
+    <style name="Edt_Estilo">
+        <item name="android:textSize">@dimen/texto_padrao</item>
+        <item name="android:layout_marginBottom">@dimen/margin_widgets</item>
+    </style>
+
+    <style name="AppTheme.Dark.Dialog.Sucesso" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/branco</item>
+        <item name="android:textColorPrimary">@color/branco</item>
+        <item name="android:background">@color/primary_sucesso</item>
+    </style>
+
+    <style name="AppTheme.Dark.Dialog.Info" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/branco</item>
+        <item name="android:textColorPrimary">@color/branco</item>
+        <item name="android:background">@color/primary_info</item>
+    </style>
+
+    <style name="AppTheme.Dark.Dialog.Error" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/branco</item>
+        <item name="android:textColorPrimary">@color/branco</item>
+        <item name="android:background">@color/primary_error</item>
+    </style>
+
+    <style name="AppTheme.Dark.Dialog.Alert" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/branco</item>
+        <item name="android:textColorPrimary">@color/branco</item>
+        <item name="android:background">@color/primary_alert</item>
+    </style>
+
+
+</resources>

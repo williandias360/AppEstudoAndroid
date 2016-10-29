@@ -1,0 +1,10 @@
+<resources>
+    <string name="action_settings">Settings</string>
+    <string name="app_name">AppEstudo</string>
+    <string name="lbl_login">Login</string>
+    <string name="lbl_senha">Senha</string>
+    <string name="btn_logar">Logar</string>
+    <string name="btn_sair">Sair</string>
+    <string name="lbl_sair">Sair</string>
+    <string name="btn_excluirConfig">Excluir Config</string>
+</resources>

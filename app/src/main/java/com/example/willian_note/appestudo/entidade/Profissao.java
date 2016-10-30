@@ -6,7 +6,7 @@ package com.example.willian_note.appestudo.entidade;
 
 public enum Profissao {
     ARQUITETO("Arquiteto de Software"), PEDREIRO("Pedreiro"), PROFESSOR("Professor"), DESENVOLVEDOR("Desenvolvedor de Sistemas"),
-    ANALISTA("Analista Financeiro"), ENGENHEIRO("Engenheiro Mecanico"), ZELADOR("Zelador"), CARTEIRO("Carteirro");
+    ANALISTA("Analista Financeiro"), ENGENHEIRO("Engenheiro Mecanico"), ZELADOR("Zelador"), CARTEIRO("Carteiro");
 
     private Profissao(String descricao){
         this.descrica = descricao;

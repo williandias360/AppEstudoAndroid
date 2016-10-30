@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.willian_note.appestudo.entidade.Pessoa;
 import com.example.willian_note.appestudo.util.Constantes;
 import com.example.willian_note.appestudo.util.Util;
 
@@ -24,7 +25,7 @@ public class LoginRepository extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         StringBuilder query = new StringBuilder();
-        query.append("CREATE TABLE TB_LOGIN( ");
+        query.append("CREATE TABLE IF NOT EXISTS TB_LOGIN( ");
         query.append(" ID_LOGIN INTEGER PRIMARY KEY AUTOINCREMENT,");
         query.append(" USUARIO TEXT(15) NOT NULL,");
         query.append(" SENHA TEXT(15) NOT NULL)");
@@ -36,7 +37,7 @@ public class LoginRepository extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        onCreate(db);
     }
 
     private void popularBD(SQLiteDatabase db){
@@ -77,5 +78,9 @@ public class LoginRepository extends SQLiteOpenHelper{
     public void DeletarLogin(String login, String senha){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete("TB_LOGIN","USUARIO=? or SENHA=?", new String[]{login,senha});
+    }
+
+    public void SalvarPessoa(Pessoa pessoa){
+
     }
 }

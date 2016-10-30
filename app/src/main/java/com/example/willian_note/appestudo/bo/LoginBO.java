@@ -18,8 +18,7 @@ public class LoginBO {
     private LoginRepository loginRepository;
 
     public LoginBO(Activity activity){
-        loginRepository = new LoginRepository(activity);
-        loginRepository.listarLogins(activity);
+
     }
     public boolean ValidarCamposLogin(LoginValidation validation)
     {

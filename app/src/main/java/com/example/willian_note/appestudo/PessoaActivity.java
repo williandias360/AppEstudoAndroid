@@ -21,6 +21,7 @@ import com.example.willian_note.appestudo.entidade.Profissao;
 import com.example.willian_note.appestudo.entidade.Sexo;
 import com.example.willian_note.appestudo.entidade.TipoPessoa;
 import com.example.willian_note.appestudo.fragment.DatePickerFragment;
+import com.example.willian_note.appestudo.repository.PessoaRepository;
 import com.example.willian_note.appestudo.util.Mask;
 import com.example.willian_note.appestudo.util.Util;
 
@@ -40,6 +41,7 @@ public class PessoaActivity extends AppCompatActivity {
     private TextView txtCpfCnpj;
     private int CpfCnpjSelecionado;
     private EditText edtDataNasc, edtNome, edtEndereco, edtCpfCnpj;
+    private PessoaRepository pessoaRepository;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +56,7 @@ public class PessoaActivity extends AppCompatActivity {
         edtNome = (EditText)findViewById(R.id.edtNome);
         edtEndereco = (EditText)findViewById(R.id.edtEndereco);
         rbgSexo = (RadioGroup)findViewById(R.id.rbgSexo);
-
+        pessoaRepository = new PessoaRepository(this);
 
         cpfMask = Mask.insert("###.###.###-##", edtCpfCnpj);
         edtCpfCnpj.addTextChangedListener(cpfMask);
@@ -96,7 +98,11 @@ public class PessoaActivity extends AppCompatActivity {
     }
 
     public void EnviarPessoa(View view){
-        MontarPessoa();
+        Pessoa p = MontarPessoa();
+        if(!ValidarPessoa(p)){
+           if(pessoaRepository.SalvarPessoa(p))
+               Util.showMsgToast(this, "Validado com Sucesso");
+        }
     }
     private void initProfissoes(){
         ArrayList<String> profissoes = new ArrayList<>();
@@ -132,7 +138,51 @@ public class PessoaActivity extends AppCompatActivity {
 
         }
     };
-    private void MontarPessoa(){
+
+    private  boolean ValidarPessoa(Pessoa pessoa){
+        boolean erro = false;
+        if (pessoa.getNome() == null || "".equals(pessoa.getNome())){
+            erro = true;
+            edtNome.setError("Campo Nome obrigatório");
+        }
+        if (pessoa.getEndereco() == null || "".equals(pessoa.getEndereco())){
+            erro = true;
+            edtEndereco.setError("Campo Endereço obrigatório");
+        }
+        if (pessoa.getCpfCnpj() == null || "".equals(pessoa.getCpfCnpj())){
+            erro = true;
+            switch (rbgCpfCnpj.getCheckedRadioButtonId()){
+                case R.id.rbtCpf:
+                    edtCpfCnpj.setError("Campo CPF obrgatório");
+                    break;
+                case R.id.rbtCnpj:
+                    edtCpfCnpj.setError("Campo CNPJ obrigatório");
+                    break;
+            }
+        }else {
+            switch (rbgCpfCnpj.getCheckedRadioButtonId()){
+                case R.id.rbtCpf:
+                    if(edtCpfCnpj.length() < 14){
+                        erro = true;
+                        edtCpfCnpj.setError("Campo CPF deve ter 11 caracteres");
+                    }
+                    break;
+                case R.id.rbtCnpj:
+                    if(edtCpfCnpj.length() < 18){
+                        erro = true;
+                        edtCpfCnpj.setError("Campo CNPJ deve ter 14 caracteres");
+                    }
+
+                    break;
+            }
+        }
+        if(pessoa.getDtNasc() == null){
+            erro = true;
+            edtDataNasc.setError("Campo Data Nasc. deve ser preenchido");
+        }
+        return erro;
+    }
+    private Pessoa MontarPessoa(){
         Pessoa pessoa = new Pessoa();
         pessoa.setNome(edtNome.getText().toString());
         pessoa.setEndereco(edtEndereco.getText().toString());
@@ -165,7 +215,7 @@ public class PessoaActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Util.showMsgToast(this,pessoa.toString());
+        return pessoa;
 
     }
 }

@@ -7,4 +7,6 @@
     <string name="btn_sair">Sair</string>
     <string name="lbl_sair">Sair</string>
     <string name="btn_excluirConfig">Excluir Config</string>
+    <string name="btnCadastro">Cadastro</string>
+    <string name="btnListar">Listar</string>
 </resources>

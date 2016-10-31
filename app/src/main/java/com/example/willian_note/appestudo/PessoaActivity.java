@@ -2,6 +2,7 @@ package com.example.willian_note.appestudo;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextWatcher;
@@ -100,8 +101,12 @@ public class PessoaActivity extends AppCompatActivity {
     public void EnviarPessoa(View view){
         Pessoa p = MontarPessoa();
         if(!ValidarPessoa(p)){
-           if(pessoaRepository.SalvarPessoa(p))
-               Util.showMsgToast(this, "Validado com Sucesso");
+           if(pessoaRepository.SalvarPessoa(p)) {
+               Util.showMsgToast(this, "Inserido com Sucesso");
+               Intent i = new Intent(this,ListaPessoaActivity.class);
+               startActivity(i);
+               finish();
+           }
         }
     }
     private void initProfissoes(){

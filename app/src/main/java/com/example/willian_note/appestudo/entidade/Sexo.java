@@ -5,7 +5,18 @@ package com.example.willian_note.appestudo.entidade;
  */
 
 public enum Sexo   {
-    MASCULINO,FEMININO;
+    MASCULINO("Masculino"),FEMININO("Feminino");
+
+    private String descricao;
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    private Sexo(String descricao){
+        this.descricao = descricao;
+
+    }
 
     public static Sexo getSexo(int pos){
         for (Sexo sexo : Sexo.values()) {

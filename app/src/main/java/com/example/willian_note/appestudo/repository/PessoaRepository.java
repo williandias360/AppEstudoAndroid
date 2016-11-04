@@ -81,30 +81,47 @@ public class PessoaRepository extends SQLiteOpenHelper {
         Cursor cursor = db.query("TB_PESSOA", null, null, null, null, null, "NOME");
         while (cursor.moveToNext()){
             Pessoa pessoa = new Pessoa();
-            pessoa.setIdPessoa(cursor.getInt(cursor.getColumnIndex("ID_PESSOA")));
-            pessoa.setNome(cursor.getString(cursor.getColumnIndex("NOME")));
-            pessoa.setEndereco(cursor.getString(cursor.getColumnIndex("ENDERECO")));
-            String cpf = cursor.getString(cursor.getColumnIndex("CPF"));
-            String cnpj = cursor.getString(cursor.getColumnIndex("CNPJ"));
-            if(cpf != null){
-                pessoa.setTipoPessoa(TipoPessoa.FISICA);
-                pessoa.setCpfCnpj(cpf);
-            }
-            else{
-                pessoa.setTipoPessoa(TipoPessoa.JURIDICA);
-                pessoa.setCpfCnpj(cnpj);
-            }
-            int sexo = cursor.getInt(cursor.getColumnIndex("SEXO"));
-            pessoa.setSexo(Sexo.getSexo(sexo));
-            int profissao = cursor.getInt(cursor.getColumnIndex("PROFISSAO"));
-            pessoa.setProfissao(Profissao.getProfissao(profissao));
-            int time = cursor.getInt(cursor.getColumnIndex("DT_NASCIMENTO"));
-            Date dtNasc = new Date();
-            dtNasc.setTime(time);
-            pessoa.setDtNasc(dtNasc);
-
+            SetPessoaFromCursor(cursor, pessoa);
             lista.add(pessoa);
         }
         return lista;
     }
+
+    public Pessoa ConsultarPessoaPorId(int idPessoa){
+        Pessoa pessoa = new Pessoa();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("TB_PESSOA", null, "ID_PESSOA = ?", new String[]{String.valueOf(idPessoa)}, null, null, "NOME");
+
+        if(cursor.moveToNext()){
+            SetPessoaFromCursor(cursor, pessoa);
+        }
+
+        return pessoa;
+    }
+
+    private void SetPessoaFromCursor(Cursor cursor, Pessoa pessoa) {
+        pessoa.setIdPessoa(cursor.getInt(cursor.getColumnIndex("ID_PESSOA")));
+        pessoa.setNome(cursor.getString(cursor.getColumnIndex("NOME")));
+        pessoa.setEndereco(cursor.getString(cursor.getColumnIndex("ENDERECO")));
+        String cpf = cursor.getString(cursor.getColumnIndex("CPF"));
+        String cnpj = cursor.getString(cursor.getColumnIndex("CNPJ"));
+        if(cpf != null){
+            pessoa.setTipoPessoa(TipoPessoa.FISICA);
+            pessoa.setCpfCnpj(cpf);
+        }
+        else{
+            pessoa.setTipoPessoa(TipoPessoa.JURIDICA);
+            pessoa.setCpfCnpj(cnpj);
+        }
+        int sexo = cursor.getInt(cursor.getColumnIndex("SEXO"));
+        pessoa.setSexo(Sexo.getSexo(sexo));
+        int profissao = cursor.getInt(cursor.getColumnIndex("PROFISSAO"));
+        pessoa.setProfissao(Profissao.getProfissao(profissao));
+        long time = cursor.getLong(cursor.getColumnIndex("DT_NASCIMENTO"));
+        Date dtNasc = new Date();
+        dtNasc.setTime(time);
+        pessoa.setDtNasc(dtNasc);
+    }
+
 }

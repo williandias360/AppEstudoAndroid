@@ -59,7 +59,6 @@ public class Util {
         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Util.showMsgToast(activity, "TesteEclipse App v2.0");
                 alertDialog.dismiss();
             }
         });

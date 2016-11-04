@@ -18,27 +18,51 @@
         android:layout_weight="1">
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/btndashCadastro"
             android:text="@string/btnCadastro"
-            android:background="@null"
-            android:padding="6dip"
-            android:layout_gravity="center_vertical"
-            android:drawableTop="@drawable/add"
-            android:layout_weight="1" />
+            style="@style/btnDash"
+            android:drawableTop="@drawable/add" />
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/btndashLista"
             android:text="@string/btnListar"
-            android:background="@null"
-            android:padding="6dip"
-            android:drawableTop="@drawable/list"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1" />
-
+            style="@style/btnDash"
+            android:drawableTop="@drawable/list" />
 
     </LinearLayout>
+    <LinearLayout
+        android:background="@drawable/borda_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <Button
+            android:text="@string/btnCadastro"
+            style="@style/btnDash"
+            android:drawableTop="@drawable/add" />
+
+        <Button
+            android:text="@string/btnListar"
+            style="@style/btnDash"
+            android:drawableTop="@drawable/list" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/borda_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <Button
+            android:text="@string/btnCadastro"
+            style="@style/btnDash"
+            android:drawableTop="@drawable/add" />
+
+        <Button
+            android:text="@string/btnListar"
+            style="@style/btnDash"
+            android:drawableTop="@drawable/list" />
+    </LinearLayout>
+
 </LinearLayout>

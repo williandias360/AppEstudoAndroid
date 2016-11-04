@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -47,6 +48,9 @@ public class PessoaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pessoa);
+        getSupportActionBar().setTitle("Cadastro de Pessoas");
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         spnProfissao = (Spinner)findViewById(R.id.spnProfissao);
         edtCpfCnpj = (EditText)findViewById(R.id.edtCpfCnpj);
@@ -222,5 +226,15 @@ public class PessoaActivity extends AppCompatActivity {
 
         return pessoa;
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 }

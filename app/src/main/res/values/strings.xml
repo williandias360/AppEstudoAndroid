@@ -9,4 +9,5 @@
     <string name="btn_excluirConfig">Excluir Config</string>
     <string name="btnCadastro">Cadastro</string>
     <string name="btnListar">Listar</string>
+    <string name="btnNovaPessoa">Nova Pessoa</string>
 </resources>

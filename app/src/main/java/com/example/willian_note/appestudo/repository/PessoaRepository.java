@@ -123,5 +123,9 @@ public class PessoaRepository extends SQLiteOpenHelper {
         dtNasc.setTime(time);
         pessoa.setDtNasc(dtNasc);
     }
+    public void RemoverPessoaPorId(int idPessoa){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("TB_PESSOA", "ID_PESSOA = ?", new String[] {String.valueOf(idPessoa)});
+    }
 
 }

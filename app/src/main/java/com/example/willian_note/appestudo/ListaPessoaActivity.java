@@ -1,5 +1,6 @@
 package com.example.willian_note.appestudo;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.id;
+
 public class ListaPessoaActivity extends AppCompatActivity {
 
     private ListView lstPessoas;
@@ -30,6 +33,7 @@ public class ListaPessoaActivity extends AppCompatActivity {
     private ImageButton btnNovaPessoa;
     private  List<Pessoa> listaPessoas;
     private int PosicaoSelecionada;
+    private ArrayAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,13 +45,8 @@ public class ListaPessoaActivity extends AppCompatActivity {
         btnNovaPessoa = (ImageButton)findViewById(R.id.btnNewPessoa);
         repository = new PessoaRepository(this);
 
-        listaPessoas = repository.listarPessoas();
-        List<String> valores = new ArrayList<String>();
-        for(Pessoa p : listaPessoas){
-            valores.add(p.getNome());
-        }
-        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,valores);
-        lstPessoas.setAdapter(adapter);
+        adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1);
+        setArrayAdapterPessoas();
 
         lstPessoas.setOnItemClickListener(clickListenerPessoas);
         lstPessoas.setOnCreateContextMenuListener(contextMenuListener);
@@ -62,6 +61,17 @@ public class ListaPessoaActivity extends AppCompatActivity {
         });
     }
 
+    private void setArrayAdapterPessoas() {
+        listaPessoas = repository.listarPessoas();
+        List<String> valores = new ArrayList<String>();
+        for(Pessoa p : listaPessoas){
+            valores.add(p.getNome());
+        }
+        adapter.clear();
+        adapter.addAll(valores);
+        lstPessoas.setAdapter(adapter);
+    }
+
     private AdapterView.OnItemLongClickListener onItemLongClickListener = new AdapterView.OnItemLongClickListener() {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -73,7 +83,7 @@ public class ListaPessoaActivity extends AppCompatActivity {
     private View.OnCreateContextMenuListener contextMenuListener = new View.OnCreateContextMenuListener() {
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            menu.add(1, 10, 1, "Editar");
+            menu.setHeaderTitle("Opções").setHeaderIcon(R.drawable.edit).add(1, 10, 1, "Editar");
             menu.add(1, 20, 2, "Deletar");
         }
     };
@@ -99,10 +109,22 @@ public class ListaPessoaActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case 10:
-                Util.showMsgToast(ListaPessoaActivity.this,"Editar");
+                Pessoa p = repository.ConsultarPessoaPorId(listaPessoas.get(PosicaoSelecionada).getIdPessoa());
+                Intent i = new Intent(ListaPessoaActivity.this,EditarPessoaActivity.class);
+                i.putExtra("pessoa",p);
+                startActivity(i);
+                //finish();
                 break;
             case 20:
-                Util.showMsgToast(ListaPessoaActivity.this,listaPessoas.get(PosicaoSelecionada).getNome());
+                Util.showMsgConfirm(ListaPessoaActivity.this, "Remover Pessoa", "Deseja realmente remover essa pessoa?", TipoMsg.ALERTA, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int id = listaPessoas.get(PosicaoSelecionada).getIdPessoa();
+                        repository.RemoverPessoaPorId(id);
+                        setArrayAdapterPessoas();
+                        adapter.notifyDataSetChanged();
+                    }
+                });
                 break;
         }
         return super.onContextItemSelected(item);

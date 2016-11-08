@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".PessoaActivity" />
         <activity android:name=".ListaPessoaActivity" />
-        <activity android:name=".DashBoardActivity"></activity>
+        <activity android:name=".DashBoardActivity" />
+        <activity android:name=".EditarPessoaActivity"></activity>
     </application>
 
 </manifest>

@@ -1,12 +1,13 @@
 package com.example.willian_note.appestudo.entidade;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Willian-Note on 29/10/2016.
  */
 
-public class Pessoa {
+public class Pessoa  implements Serializable{
     private int idPessoa;
     private String nome;
     private String endereco;

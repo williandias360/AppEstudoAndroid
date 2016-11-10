@@ -1,6 +1,7 @@
 package com.example.willian_note.appestudo;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextWatcher;
@@ -22,6 +23,7 @@ import com.example.willian_note.appestudo.entidade.TipoPessoa;
 import com.example.willian_note.appestudo.fragment.DatePickerFragment;
 import com.example.willian_note.appestudo.repository.PessoaRepository;
 import com.example.willian_note.appestudo.util.Mask;
+import com.example.willian_note.appestudo.util.Util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -192,6 +194,7 @@ public class EditarPessoaActivity extends AppCompatActivity {
     }
     private Pessoa MontarPessoa() {
         Pessoa pessoa = new Pessoa();
+        pessoa.setIdPessoa(this.pessoa.getIdPessoa());
         pessoa.setNome(edtNome.getText().toString());
         pessoa.setEndereco(edtEndereco.getText().toString());
         pessoa.setCpfCnpj(edtCpfCnpj.getText().toString());
@@ -250,5 +253,17 @@ public class EditarPessoaActivity extends AppCompatActivity {
         spnProfissao.setSelection(pessoa.getProfissao().ordinal());
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         edtDataNasc.setText(dateFormat.format(pessoa.getDtNasc()));
+    }
+
+    public void AtualizarPessoa(View view) {
+        Pessoa p = MontarPessoa();
+        if (!ValidarPessoa(p)) {
+            if (pessoaRepository.AtualizarPessoa(p)) {
+                Util.showMsgToast(this, "Alterado com Sucesso");
+                Intent i = new Intent(this, ListaPessoaActivity.class);
+                startActivity(i);
+                finish();
+            }
+        }
     }
 }

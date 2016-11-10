@@ -7,6 +7,7 @@ import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.speech.tts.TextToSpeechService;
+import android.support.annotation.NonNull;
 
 import com.example.willian_note.appestudo.entidade.Pessoa;
 import com.example.willian_note.appestudo.entidade.Profissao;
@@ -52,20 +53,7 @@ public class PessoaRepository extends SQLiteOpenHelper {
         try
         {
             SQLiteDatabase db = this.getWritableDatabase();
-            ContentValues contentValues = new ContentValues();
-            contentValues.put("NOME",pessoa.getNome());
-            contentValues.put("ENDERECO",pessoa.getEndereco());
-            switch (pessoa.getTipoPessoa()){
-                case FISICA:
-                    contentValues.put("CPF",pessoa.getCpfCnpj());
-                    break;
-                case JURIDICA:
-                    contentValues.put("CNPJ", pessoa.getCpfCnpj());
-                    break;
-            }
-            contentValues.put("SEXO", pessoa.getSexo().ordinal());
-            contentValues.put("PROFISSAO", pessoa.getProfissao().ordinal());
-            contentValues.put("DT_NASCIMENTO", pessoa.getDtNasc().getTime());
+            ContentValues contentValues = getContentValuesPessoa(pessoa);
             db.insert("TB_PESSOA", null, contentValues);
         }
         catch (Exception e){
@@ -73,6 +61,27 @@ public class PessoaRepository extends SQLiteOpenHelper {
             Cadastrou = false;
         }
         return Cadastrou;
+    }
+
+    @NonNull
+    private ContentValues getContentValuesPessoa(Pessoa pessoa) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("NOME",pessoa.getNome());
+        contentValues.put("ENDERECO",pessoa.getEndereco());
+        switch (pessoa.getTipoPessoa()){
+            case FISICA:
+                contentValues.put("CPF",pessoa.getCpfCnpj());
+                contentValues.put("CNPJ", "");
+                break;
+            case JURIDICA:
+                contentValues.put("CNPJ", pessoa.getCpfCnpj());
+                contentValues.put("CPF", "");
+                break;
+        }
+        contentValues.put("SEXO", pessoa.getSexo().ordinal());
+        contentValues.put("PROFISSAO", pessoa.getProfissao().ordinal());
+        contentValues.put("DT_NASCIMENTO", pessoa.getDtNasc().getTime());
+        return contentValues;
     }
 
     public List<Pessoa> listarPessoas(){
@@ -87,6 +96,18 @@ public class PessoaRepository extends SQLiteOpenHelper {
         return lista;
     }
 
+    public boolean AtualizarPessoa(Pessoa pessoa){
+
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues contentValues = getContentValuesPessoa(pessoa);
+            db.update("TB_PESSOA",contentValues, "ID_PESSOA = ?",new String[]{String.valueOf(pessoa.getIdPessoa())});
+            return  true;
+       }catch (Exception e){
+           return  false;
+       }
+
+    }
     public Pessoa ConsultarPessoaPorId(int idPessoa){
         Pessoa pessoa = new Pessoa();
 
@@ -106,7 +127,7 @@ public class PessoaRepository extends SQLiteOpenHelper {
         pessoa.setEndereco(cursor.getString(cursor.getColumnIndex("ENDERECO")));
         String cpf = cursor.getString(cursor.getColumnIndex("CPF"));
         String cnpj = cursor.getString(cursor.getColumnIndex("CNPJ"));
-        if(cpf != null){
+        if(cpf != null && !cpf.equals("")){
             pessoa.setTipoPessoa(TipoPessoa.FISICA);
             pessoa.setCpfCnpj(cpf);
         }
